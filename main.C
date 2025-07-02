@@ -3,7 +3,7 @@
 #include <string.h>
 #include <dirent.h>
 
-#define MUSIC_FOLDER "./music/"
+#define MUSIC_FOLDER "./Music/"
 #define MAX_FILES 100
 #define MAX_FILENAME 256
 
