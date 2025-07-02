@@ -14,14 +14,15 @@ void listSongs(char songs[][MAX_FILENAME], int *count) {
 
     if (dir == NULL) {
         perror("Unable to open a music file  :(");
-        exit(1)
+        exit(1);
     }
 
-    while ((entry = readdir(dir))) != NULL && *count < MAX_FILES {
-        if (strstr(entry -> d_name, ".mp3")) {
-            strcpy(songs[(*count)++], entry -> d_name);
-        }
+    while ((entry = readdir(dir)) != NULL) {
+    if (*count >= MAX_FILES) break;
+    if (strstr(entry->d_name, ".mp3")) {
+        strcpy(songs[(*count)++], entry->d_name);
     }
+}
 
     closedir(dir);
 }
@@ -57,9 +58,7 @@ int main() {
         if (choice > 0 && choice <= songCount) {
             playSong(songs[choice -1]);
         } else {
-            printf("Wrong choice.....\n");
-            sleep(1)
-            printf("Try again!\n");
+            printf("Wrong choice.....try again\n");
         }
     }
 
