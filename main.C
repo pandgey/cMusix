@@ -3,7 +3,7 @@
 #include <string.h>
 #include <dirent.h>
 
-#define MUSIC_FOLDER "./Music"
+#define MUSIC_FOLDER "./Music/"
 #define MAX_FILES 100
 #define MAX_FILENAME 256
 
@@ -13,16 +13,15 @@ void listSongs(char songs[][MAX_FILENAME], int *count) {
     *count = 0;
 
     if (dir == NULL) {
-        perror("Unable to open a music file  :(");
+        perror("Failed to open music directory");
         exit(1);
     }
 
-    while ((entry = readdir(dir)) != NULL) {
-    if (*count >= MAX_FILES) break;
-    if (strstr(entry->d_name, ".mp3")) {
-        strcpy(songs[(*count)++], entry->d_name);
+    while ((entry = readdir(dir)) != NULL && (*count) < MAX_FILES) {
+        if (strstr(entry->d_name, ".mp3")) {
+            strcpy(songs[(*count)++], entry->d_name);
+        }
     }
-}
 
     closedir(dir);
 }
@@ -40,25 +39,34 @@ int main() {
 
     listSongs(songs, &songCount);
 
+    if (songCount == 0) {
+        printf("No MP3 files found in %s\n", MUSIC_FOLDER);
+        return 1;
+    }
+
     while (1) {
-        printf("\nAvailable Songs:\n");
+        printf("\n🎶 Available Songs:\n");
         for (int i = 0; i < songCount; i++) {
             printf("%d. %s\n", i + 1, songs[i]);
         }
         printf("0. Exit\n");
 
         printf("Choose a song to play: ");
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Try again.\n");
+            while (getchar() != '\n'); // clear buffer
+            continue;
+        }
 
         if (choice == 0) {
-            printf("Buh bye! I love you! Say it back!!!\n");
+            printf("Buh bye, i love you. Say it back!\n");
             break;
         }
 
         if (choice > 0 && choice <= songCount) {
-            playSong(songs[choice -1]);
+            playSong(songs[choice - 1]);
         } else {
-            printf("Wrong choice.....try again\n");
+            printf("Invalid choice.\n");
         }
     }
 
