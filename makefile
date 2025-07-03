@@ -1,5 +1,3 @@
-# Simple Makefile for cMusix
-
 CC = gcc
 SRC = main.c
 OUT_DIR = bin

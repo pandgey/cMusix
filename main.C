@@ -54,7 +54,7 @@ int main() {
         printf("Choose a song to play: ");
         if (scanf("%d", &choice) != 1) {
             printf("Invalid input. Try again.\n");
-            while (getchar() != '\n'); // clear buffer
+            while (getchar() != '\n');
             continue;
         }
 
