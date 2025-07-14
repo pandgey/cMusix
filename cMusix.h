@@ -79,7 +79,7 @@ void set_color(int fg, int bg);
 void reset_color();
 
 // audio.c
-int is_audio_file(const char* filename);
+int audio_file(const char* filename);
 int init_audio();
 void cleanup();
 void play_current_song();
