@@ -1,5 +1,5 @@
-#ifndef MUSIC_PLAYER_H
-#define MUSIC_PLAYER_H
+#ifndef cMusix_H
+#define cMusix_H
 
 #include <stdio.h>
 #include <stdlib.h>
