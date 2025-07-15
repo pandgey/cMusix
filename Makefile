@@ -81,7 +81,7 @@ install:
 	@echo "Installing SDL2 dependencies..."
 ifeq ($(UNAME_S),Linux)
 
-# debian
+# Debian
 	@if command -v apt-get >/dev/null 2>&1; then \
 		echo "Using apt-get (Debian/Ubuntu)..."; \
 		sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev; \
@@ -115,6 +115,11 @@ ifeq ($(UNAME_S),Linux)
 	elif command -v apk >/dev/null 2>&1; then \
 		echo "Using apk (Alpine Linux)..."; \
 		sudo apk add --no-cache sdl2-dev sdl2_mixer-dev; \
+	
+# Void Linux
+	elif command -v xbps-install >/dev/null 2>&1; then \
+		echo "Using xbps (Void Linux)..."; \
+		sudo xbps-install -S SDL2-devel SDL2_mixer-devel; \
 
 # Unknown linux
 	else \
