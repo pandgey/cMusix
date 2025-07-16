@@ -20,14 +20,29 @@ int init_audio() {
 }
 
 void cleanup() {
+    // Stop and free music
     if (player.current_music) {
+        Mix_HaltMusic();
         Mix_FreeMusic(player.current_music);
         player.current_music = NULL;
     }
+    
+    // Close audio systems
     Mix_CloseAudio();
     SDL_Quit();
+    
+    // Restore terminal state
+    clear_screen();
+    move_cursor(1, 1);
     show_cursor();
     reset_color();
+    
+    // Restore normal terminal mode
+    rawModeOff();
+    
+    // Print a nice goodbye message
+    printf("You are now exiting cMusix...\n");
+    fflush(stdout);
 }
 
 void playSong() {
