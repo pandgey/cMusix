@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
 LIBS = -lSDL2 -lSDL2_mixer
-TARGET = music_player
+TARGET = cMusix
 
 # OS Detection
 UNAME_S := $(shell uname -s)
