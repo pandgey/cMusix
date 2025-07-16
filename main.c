@@ -1,21 +1,21 @@
 #include "cMusix.h"
 
-cPlayer player = {0};
+MusicPlayer player = {0};
 
 void looper() {
     while (1) {
         get_terminal_size();
-        draw_interface();
+        createInterface();
 
         if (player.is_playing && !Mix_PlayingMusic()) {
             if (player.repeat) {
-                play_current_song();
+                playSong();
             } else {
-                next_song();
+                nextSong();
             }
         }
 
-        handle_input();
+        userInput();
         usleep(100000); // 0.1 second delay
     }
 }
@@ -38,12 +38,12 @@ int main(int argc, char* argv[]) {
     }
 
     // setup
-    enable_raw_mode();
+    rawModeOn();
     get_terminal_size();
-    signal(SIGWINCH, handle_resize);
+    signal(SIGWINCH, resize);
 
     // register cleanup
-    atexit(cleanup;)
+    atexit(cleanup);
 
     if (argc > 1) {
         load_folder(argv[1]);
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
         fflush(stdout);
         char folder_path[MAX_PATH_LENGTH];
         if (fgets(folder_path, sizeof(folder_path), stdin)) {
-            folder_path[(strcspn(folder_path, "\n")] = 0;
+            folder_path[strcspn(folder_path, "\n")] = 0;
             if (strlen(folder_path) > 0) {
                 load_folder(folder_path);
             }

@@ -33,7 +33,7 @@ void scan_directory(const char* dir_path) {
         if (stat(full_path, &file_stat) == 0) {
             if (S_ISDIR(file_stat.st_mode)) {
                 scan_directory(full_path);
-            } else if (S_ISREG(file_stat.st_mode) && is_audio_file(entry->d_name)) {
+            } else if (S_ISREG(file_stat.st_mode) && audio_file(entry->d_name)) {
                 add_song(full_path);
             }
         }

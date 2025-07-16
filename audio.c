@@ -4,7 +4,7 @@ int audio_file(const char* filename) {
     const char* ext = strrchr(filename, ".");
     if (!ext) return 0;
 
-    return (strcasecmp(ext, ".mp3") == 0 || strcasecmp(ext, ".wav") == 0 || strcasecmp(ext, ".flac") == 0 || strcasecmp(ext, ".ogg") == 0 ||);
+    return (strcasecmp(ext, ".mp3") == 0 || strcasecmp(ext, ".wav") == 0 || strcasecmp(ext, ".flac") == 0 || strcasecmp(ext, ".ogg") == 0);
 }
 
 int init_audio() {
@@ -40,11 +40,11 @@ void playSong() {
     player.current_music = Mix_LoadMUS(player.songs[player.current_index].path);
     if (!player.current_music) return;
 
-    Mix_VolumeMusic((int)(player.voolume * 128));
+    Mix_VolumeMusic((int)(player.volume * 128));
 
-    if (Mix_PlayerMusic(player_current_song, 0) == -1) return;
+    if (Mix_PlayMusic(player_current_song, 0) == -1) return;
 
-    player.is_player = 1;
+    player.is_playing = 1;
     player.is_paused = 0;
     player.song_start_time = time(NULL);
 }
@@ -76,7 +76,7 @@ void nextSong() {
         player.current_index = (player.current_index + 1) % player.count;
     }
 
-    player_current_song();
+    playsong();
 }
 
 void previousSong() {

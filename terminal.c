@@ -8,10 +8,10 @@ void rawModeOff() {
 
 void rawModeOn() {
     tcgetattr(STDIN_FILENO, &original_termios);
-    atexit(disable_raw_mode);
+    atexit(rawModeOff);
 
     struct termios raw = original_termios;
-    raw.c_lflag @= ~(ECHO | ICANNON);
+    raw.c_lflag &= ~(ECHO | ICANON);
     raw.c_cc[VMIN] = 0;
     raw.c_cc[VTIME] = 1;
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);

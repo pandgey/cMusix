@@ -8,16 +8,16 @@ void userInput() {
     switch (ch) {
         case ' ':
             if (!player.is_playing && player.count > 0) {
-                play_current_song();
+                playSong();
             } else {
-                pause_resume();
+                pauseResume();
             }
             break;
         case 'n':
-            next_song();
+            nextSong();
             break;
         case 'p':
-            previous_song();
+            previousSong();
             break;
         case '+':
         case '=':
@@ -27,10 +27,10 @@ void userInput() {
             set_volume(player.volume - 0.1f);
             break;
         case 's':
-            toggle_shuffle();
+            shuffleFunction();
             break;
         case 'r':
-            toggle_repeat();
+            repeatFunction();
             break;
         case 'q':
             exit(0);

@@ -99,11 +99,11 @@ void createInterface() {
     if (player.is_playing && !player.is_paused) {
         fake_progress = fmod((current_time - player.song_start_time) / 30.0f, 1.0f);
     }
-    draw_progress_bar(width - 20, fake_progress);
+    progressBar(width - 20, fake_progress);
     
     // Volume bar
     move_cursor(8, 1);
-    draw_volume_bar(20);
+    volumeBar(20);
     
     // Mode indicators
     move_cursor(8, width - 30);
@@ -121,7 +121,7 @@ void createInterface() {
     // Separator
     move_cursor(10, 1);
     set_color(COLOR_WHITE, COLOR_BG_BLACK);
-    draw_line(width, '─');
+    createLine(width, '─');
     reset_color();
     
     // Playlist
@@ -156,7 +156,7 @@ void createInterface() {
     // Controls help
     move_cursor(height - 3, 1);
     set_color(COLOR_WHITE, COLOR_BG_BLACK);
-    draw_line(width, '─');
+    createLine(width, '─');
     reset_color();
     
     move_cursor(height - 2, 1);
