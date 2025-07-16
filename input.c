@@ -1,7 +1,7 @@
 #include "cMusix.h"
 
 // Handle keyboard input
-void handle_input() {
+void userInput() {
     char ch = getchar();
     if (ch == EOF) return;
     

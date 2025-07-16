@@ -1,11 +1,11 @@
 #include "cMusix.h"
 
-void draw_line(int width, char c) {
+void createLine(int width, char c) {
     for (int i = 0; i < width; i++) {
         printf("%c", c);
     }
 }
-void draw_progress_bar(int width, float progress) {
+void progressBar(int width, float progress) {
     int filled = (int)(progress * width);
     printf("[");
     for (int i = 0; i < width - 2; i++) {
@@ -21,7 +21,7 @@ void draw_progress_bar(int width, float progress) {
     printf("]");
 };
 
-void draw_volume_bar(int width) {
+void volumeBar(int width) {
     int filled = (int)(player.volume * width);
     printf("Vol: ");
     for (int i = 0; i < width; i++) {
@@ -47,7 +47,7 @@ void truncate_string(char* dest, const char* src, int max_width) {
     }
 }
 
-void draw_interface() {
+void createInterface() {
     clear_screen();
     hide_cursor();
     

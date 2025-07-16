@@ -97,16 +97,16 @@ void scan_directory(const char* dir_path);
 void load_folder(const char* folder_path);
 
 // interface.c
-void draw_line(int width, char c);
-void draw_progress_bar(int width, float progress);
-void draw_volume_bar(int width);
+void createLine(int width, char c);
+void progressBar(int width, float progress);
+void volumeBar(int width);
 void truncate_string(char* dest, const char* src, int max_width);
-void draw_interface();
+void createInterface();
 
 // input.c
-void handle_input();
+void userInput();
 
 // main.c
-void main_loop();
+void looper();
 
 #endif
