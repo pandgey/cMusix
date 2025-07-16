@@ -5,6 +5,7 @@ void createLine(int width, char c) {
         printf("%c", c);
     }
 }
+
 void progressBar(int width, float progress) {
     int filled = (int)(progress * width);
     printf("[");
@@ -19,7 +20,7 @@ void progressBar(int width, float progress) {
     }
     reset_color();
     printf("]");
-};
+}
 
 void volumeBar(int width) {
     int filled = (int)(player.volume * width);
@@ -38,7 +39,7 @@ void volumeBar(int width) {
 }
 
 void truncate_string(char* dest, const char* src, int max_width) {
-    if (strlen(src) <= max_width) {
+    if ((int)strlen(src) <= max_width) {
         strcpy(dest, src);
     } else {
         strncpy(dest, src, max_width - 3);
@@ -58,7 +59,7 @@ void createInterface() {
     move_cursor(1, 1);
     set_color(COLOR_BOLD, COLOR_BG_BLUE);
     printf("  cMusix  ");
-    for (int i = 26; i < width; i++) printf(" ");
+    for (int i = 10; i < width; i++) printf(" ");
     reset_color();
     
     // Current song info
@@ -121,7 +122,7 @@ void createInterface() {
     // Separator
     move_cursor(10, 1);
     set_color(COLOR_WHITE, COLOR_BG_BLACK);
-    createLine(width, '─');
+    createLine(width, '-');
     reset_color();
     
     // Playlist
@@ -146,7 +147,7 @@ void createInterface() {
         if (song_index == player.current_index) {
             set_color(COLOR_BLACK, COLOR_BG_GREEN);
             printf("▶ %3d. %s", song_index + 1, truncated_name);
-            for (int j = strlen(truncated_name) + 7; j < width; j++) printf(" ");
+            for (int j = (int)strlen(truncated_name) + 7; j < width; j++) printf(" ");
             reset_color();
         } else {
             printf("  %3d. %s", song_index + 1, truncated_name);
@@ -156,7 +157,7 @@ void createInterface() {
     // Controls help
     move_cursor(height - 3, 1);
     set_color(COLOR_WHITE, COLOR_BG_BLACK);
-    createLine(width, '─');
+    createLine(width, '-');
     reset_color();
     
     move_cursor(height - 2, 1);

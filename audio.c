@@ -1,7 +1,7 @@
 #include "cMusix.h"
 
 int audio_file(const char* filename) {
-    const char* ext = strrchr(filename, ".");
+    const char* ext = strrchr(filename, '.');
     if (!ext) return 0;
 
     return (strcasecmp(ext, ".mp3") == 0 || strcasecmp(ext, ".wav") == 0 || strcasecmp(ext, ".flac") == 0 || strcasecmp(ext, ".ogg") == 0);
@@ -42,7 +42,7 @@ void playSong() {
 
     Mix_VolumeMusic((int)(player.volume * 128));
 
-    if (Mix_PlayMusic(player_current_song, 0) == -1) return;
+    if (Mix_PlayMusic(player.current_music, 0) == -1) return;
 
     player.is_playing = 1;
     player.is_paused = 0;
@@ -76,7 +76,7 @@ void nextSong() {
         player.current_index = (player.current_index + 1) % player.count;
     }
 
-    playsong();
+    playSong();
 }
 
 void previousSong() {
@@ -88,7 +88,7 @@ void previousSong() {
         player.current_index = (player.current_index - 1 + player.count) % player.count;
     }
 
-    player_current_song();
+    playSong();
 }
 
 void set_volume(float volume) {

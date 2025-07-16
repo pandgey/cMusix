@@ -70,65 +70,41 @@ $(OBJDIR):
 clean:
 	rm -rf $(OBJDIR) $(TARGET)
 
-# OS Detection
-UNAME_S := $(shell uname -s)
-DISTRO := $(shell if [ -f /etc/os-release ]; then . /etc/os-release; echo $ID; fi)
-
 # Package manager detection
 install:
 	@echo "Detected OS: $(UNAME_S)"
 	@echo "Detected Distribution: $(DISTRO)"
 	@echo "Installing SDL2 dependencies..."
 ifeq ($(UNAME_S),Linux)
-
-# Debian
 	@if command -v apt-get >/dev/null 2>&1; then \
 		echo "Using apt-get (Debian/Ubuntu)..."; \
 		sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev; \
-
-# CentOS
 	elif command -v yum >/dev/null 2>&1; then \
 		echo "Using yum (RHEL/CentOS)..."; \
 		sudo yum install -y SDL2-devel SDL2_mixer-devel; \
-
-# Fedora
 	elif command -v dnf >/dev/null 2>&1; then \
 		echo "Using dnf (Fedora)..."; \
 		sudo dnf install -y SDL2-devel SDL2_mixer-devel; \
-
-# Arch-based
 	elif command -v pacman >/dev/null 2>&1; then \
 		echo "Using pacman (Arch Linux)..."; \
 		sudo pacman -S --needed sdl2 sdl2_mixer; \
-
-# openSUSE
 	elif command -v zypper >/dev/null 2>&1; then \
 		echo "Using zypper (openSUSE)..."; \
 		sudo zypper install -y libSDL2-devel libSDL2_mixer-devel; \
-
-# Gentoo
 	elif command -v emerge >/dev/null 2>&1; then \
 		echo "Using emerge (Gentoo)..."; \
 		sudo emerge -av media-libs/libsdl2 media-libs/sdl2-mixer; \
-
-# Alpine Linux
 	elif command -v apk >/dev/null 2>&1; then \
 		echo "Using apk (Alpine Linux)..."; \
 		sudo apk add --no-cache sdl2-dev sdl2_mixer-dev; \
-	
-# Void Linux
 	elif command -v xbps-install >/dev/null 2>&1; then \
 		echo "Using xbps (Void Linux)..."; \
 		sudo xbps-install -S SDL2-devel SDL2_mixer-devel; \
-
-# Unknown linux
 	else \
 		echo "Unknown package manager. Please install SDL2 and SDL2_mixer manually."; \
 		echo "Required packages: SDL2 development libraries, SDL2_mixer development libraries"; \
 		exit 1; \
 	fi
-
-# MacOS
 else ifeq ($(UNAME_S),Darwin)
 	@if command -v brew >/dev/null 2>&1; then \
 		echo "Using Homebrew (macOS)..."; \
@@ -142,23 +118,15 @@ else ifeq ($(UNAME_S),Darwin)
 		echo "MacPorts: https://www.macports.org/"; \
 		exit 1; \
 	fi
-
-# pkg FreeBSD
 else ifeq ($(UNAME_S),FreeBSD)
 	@echo "Using pkg (FreeBSD)..."
 	sudo pkg install -y sdl2 sdl2_mixer
-
-# pkg_add (OpenBSD)
 else ifeq ($(UNAME_S),OpenBSD)
 	@echo "Using pkg_add (OpenBSD)..."
 	sudo pkg_add sdl2 sdl2-mixer
-
-# pkgin (NetBSD)
 else ifeq ($(UNAME_S),NetBSD)
 	@echo "Using pkgin (NetBSD)..."
 	sudo pkgin install sdl2 SDL2_mixer
-
-# truly unknown package manager
 else
 	@echo "Unsupported OS: $(UNAME_S)"
 	@echo "Please install SDL2 and SDL2_mixer manually for your system."

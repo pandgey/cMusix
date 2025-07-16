@@ -14,6 +14,7 @@
 #include <sys/ioctl.h>
 #include <signal.h>
 #include <ctype.h>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -25,6 +26,7 @@
 // ANSI color codes
 #define COLOR_RESET     0
 #define COLOR_BOLD      1
+#define COLOR_BLACK     30
 #define COLOR_RED       31
 #define COLOR_GREEN     32
 #define COLOR_YELLOW    33

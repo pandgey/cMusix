@@ -29,6 +29,7 @@ void get_terminal_size() {
 }
 
 void resize(int sig) {
+    (void)sig;  // Suppress unused parameter warning
     get_terminal_size();
     signal(SIGWINCH, resize);
 }
