@@ -67,10 +67,10 @@ extern struct termios original_termios;
 
 // Function declarations
 // terminal.c
-void disable_raw_mode();
-void enable_raw_mode();
+void rawModeOff();
+void rawModeOn();
 void get_terminal_size();
-void handle_resize(int sig);
+void resize(int sig);
 void clear_screen();
 void move_cursor(int row, int col);
 void hide_cursor();
@@ -82,14 +82,14 @@ void reset_color();
 int audio_file(const char* filename);
 int init_audio();
 void cleanup();
-void play_current_song();
-void pause_resume();
-void stop_playback();
-void next_song();
-void previous_song();
+void playSong();
+void pauseResume();
+void stopPlayback();
+void nextSong();
+void previousSong();
 void set_volume(float volume);
-void toggle_shuffle();
-void toggle_repeat();
+void shuffleFunction();
+void repeatFunction();
 
 // playlist.c
 void add_song(const char* filepath);

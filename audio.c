@@ -30,7 +30,7 @@ void cleanup() {
     reset_color();
 }
 
-void player_current_song() {
+void playSong() {
     if (player.count == 0) return;
 
     if (player.current_music) {
@@ -49,7 +49,7 @@ void player_current_song() {
     player.song_start_time = time(NULL);
 }
 
-void pause_resume() {
+void pauseResume() {
     if (!player.is_playing) return;
 
     if (player.is_paused) {
@@ -61,13 +61,13 @@ void pause_resume() {
     }
 }
 
-void stop_playback() {
+void stopPlayback() {
     Mix_HaltMusic();
     player.is_playing = 0;
     player.is_paused = 0;
 }
 
-void next_song() {
+void nextSong() {
     if (player.count == 0) return;
 
     if (player.shuffle) {
@@ -79,7 +79,7 @@ void next_song() {
     player_current_song();
 }
 
-void previous_song() {
+void previousSong() {
     if (player.count == 0) return;
 
     if (player.shuffle) {
@@ -99,10 +99,10 @@ void set_volume(float volume) {
     Mix_VolumeMusic((int)(player.volume * 128));
 }
 
-void toggle_shuffle() {
+void shuffleFunction() {
     player.shuffle = !player.shuffle;
 }
 
-void toggle_repeat() {
+void repeatFunction() {
     player.repeat = !player.repeat;
 }

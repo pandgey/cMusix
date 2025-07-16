@@ -2,11 +2,11 @@
 
 struct termios original_termios;
 
-void disable_raw_mode() {
+void rawModeOff() {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &original_termios);
 }
 
-void enable_raw_mode() {
+void rawModeOn() {
     tcgetattr(STDIN_FILENO, &original_termios);
     atexit(disable_raw_mode);
 
@@ -28,9 +28,9 @@ void get_terminal_size() {
     }
 }
 
-void handle_resize(int sig) {
+void resize(int sig) {
     get_terminal_size();
-    signal(SIGWINCH, handle_resize);
+    signal(SIGWINCH, resize);
 }
 
 void clear_screen() {
