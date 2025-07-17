@@ -76,27 +76,43 @@ install:
 	@echo "Detected Distribution: $(DISTRO)"
 	@echo "Installing SDL2 dependencies..."
 ifeq ($(UNAME_S),Linux)
+
+# Debian
 	@if command -v apt-get >/dev/null 2>&1; then \
 		echo "Using apt-get (Debian/Ubuntu)..."; \
 		sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev; \
+
+# CentOS
 	elif command -v yum >/dev/null 2>&1; then \
 		echo "Using yum (RHEL/CentOS)..."; \
 		sudo yum install -y SDL2-devel SDL2_mixer-devel; \
+	
+# Fedora	
 	elif command -v dnf >/dev/null 2>&1; then \
 		echo "Using dnf (Fedora)..."; \
 		sudo dnf install -y SDL2-devel SDL2_mixer-devel; \
+	
+# Arch	
 	elif command -v pacman >/dev/null 2>&1; then \
 		echo "Using pacman (Arch Linux)..."; \
 		sudo pacman -S --needed sdl2 sdl2_mixer; \
+	
+# openSUSE	
 	elif command -v zypper >/dev/null 2>&1; then \
 		echo "Using zypper (openSUSE)..."; \
 		sudo zypper install -y libSDL2-devel libSDL2_mixer-devel; \
+	
+# Gentoo	
 	elif command -v emerge >/dev/null 2>&1; then \
 		echo "Using emerge (Gentoo)..."; \
 		sudo emerge -av media-libs/libsdl2 media-libs/sdl2-mixer; \
+	
+# Alpine Linux	
 	elif command -v apk >/dev/null 2>&1; then \
 		echo "Using apk (Alpine Linux)..."; \
 		sudo apk add --no-cache sdl2-dev sdl2_mixer-dev; \
+	
+# Void Linux	
 	elif command -v xbps-install >/dev/null 2>&1; then \
 		echo "Using xbps (Void Linux)..."; \
 		sudo xbps-install -S SDL2-devel SDL2_mixer-devel; \

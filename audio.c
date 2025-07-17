@@ -1,10 +1,27 @@
 #include "cMusix.h"
 
 int audio_file(const char* filename) {
+    if (!filename) return 0;
+    
     const char* ext = strrchr(filename, '.');
     if (!ext) return 0;
-
-    return (strcasecmp(ext, ".mp3") == 0 || strcasecmp(ext, ".wav") == 0 || strcasecmp(ext, ".flac") == 0 || strcasecmp(ext, ".ogg") == 0);
+    
+    // Convert extension to lowercase for comparison
+    char lower_ext[10];
+    int i = 0;
+    while (ext[i] && i < 9) {
+        lower_ext[i] = tolower(ext[i]);
+        i++;
+    }
+    lower_ext[i] = '\0';
+    
+    // Check for supported audio file extensions
+    return (strcmp(lower_ext, ".mp3") == 0 || 
+            strcmp(lower_ext, ".wav") == 0 || 
+            strcmp(lower_ext, ".flac") == 0 || 
+            strcmp(lower_ext, ".ogg") == 0 ||
+            strcmp(lower_ext, ".m4a") == 0 ||
+            strcmp(lower_ext, ".aac") == 0);
 }
 
 int init_audio() {
