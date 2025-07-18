@@ -1,11 +1,18 @@
+# Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
 LIBS = -lSDL2 -lSDL2_mixer
 TARGET = cMusix
 
+# Colors
+YELLOW = \033[1;33m
+GREEN = \033[1;32m
+RED = \033[1;31m
+RESET = \033[0m
+
 # OS Detection
 UNAME_S := $(shell uname -s)
-DISTRO := $(shell if [ -f /etc/os-release ]; then . /etc/os-release; echo $ID; fi)
+DISTRO := $(shell grep '^ID=' /etc/os-release 2>/dev/null | cut -d= -f2 | tr -d '"')
 
 # OS-specific compiler flags
 ifeq ($(UNAME_S),Linux)
@@ -29,16 +36,98 @@ ifeq ($(UNAME_S),NetBSD)
 	LIBS += -L/usr/pkg/lib -lm
 endif
 
+# Directories
 SRCDIR = .
 OBJDIR = obj
 SOURCES = $(wildcard $(SRCDIR)/*.c)
 OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-# Additional help target
+# Targets
+.PHONY: all clean install help debug release
+
+all: $(TARGET)
+	@echo "$(GREEN)[✓] Build complete$(RESET)"
+
+$(TARGET): $(OBJECTS)
+	@echo "$(YELLOW)[*] Linking...$(RESET)"
+	$(CC) $(OBJECTS) -o $@ $(LIBS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	@echo "$(YELLOW)[*] Compiling $<$(RESET)"
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+clean:
+	@echo "$(RED)[x] Cleaning...$(RESET)"
+	@rm -rf $(OBJDIR) $(TARGET)
+
+install:
+	@echo "$(YELLOW)[*] Detected OS: $(UNAME_S)$(RESET)"
+	@echo "$(YELLOW)[*] Detected Distribution: $(DISTRO)$(RESET)"
+	@echo "$(GREEN)[*] Installing SDL2 dependencies...$(RESET)"
+ifeq ($(UNAME_S),Linux)
+	@if command -v apt-get >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using apt-get (Debian/Ubuntu)$(RESET)"; \
+		sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev; \
+	elif command -v yum >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using yum (RHEL/CentOS)$(RESET)"; \
+		sudo yum install -y SDL2-devel SDL2_mixer-devel; \
+	elif command -v dnf >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using dnf (Fedora)$(RESET)"; \
+		sudo dnf install -y SDL2-devel SDL2_mixer-devel; \
+	elif command -v pacman >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using pacman (Arch Linux)$(RESET)"; \
+		sudo pacman -S --needed sdl2 sdl2_mixer; \
+	elif command -v zypper >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using zypper (openSUSE)$(RESET)"; \
+		sudo zypper install -y libSDL2-devel libSDL2_mixer-devel; \
+	elif command -v emerge >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using emerge (Gentoo)$(RESET)"; \
+		sudo emerge -av media-libs/libsdl2 media-libs/sdl2-mixer; \
+	elif command -v apk >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using apk (Alpine Linux)$(RESET)"; \
+		sudo apk add --no-cache sdl2-dev sdl2_mixer-dev; \
+	elif command -v xbps-install >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using xbps (Void Linux)$(RESET)"; \
+		sudo xbps-install -Sy SDL2-devel SDL2_mixer-devel; \
+	else \
+		echo "$(RED)! Unknown package manager. Please install SDL2 and SDL2_mixer manually.$(RESET)"; \
+		exit 1; \
+	fi
+else ifeq ($(UNAME_S),Darwin)
+	@if command -v brew >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using Homebrew$(RESET)"; \
+		brew install sdl2 sdl2_mixer; \
+	elif command -v port >/dev/null 2>&1; then \
+		echo "$(GREEN)> Using MacPorts$(RESET)"; \
+		sudo port install libsdl2 libsdl2_mixer; \
+	else \
+		echo "$(RED)! Please install Homebrew or MacPorts first.$(RESET)"; \
+		exit 1; \
+	fi
+else ifeq ($(UNAME_S),FreeBSD)
+	@sudo pkg install -y sdl2 sdl2_mixer
+else ifeq ($(UNAME_S),OpenBSD)
+	@sudo pkg_add sdl2 sdl2-mixer
+else ifeq ($(UNAME_S),NetBSD)
+	@sudo pkgin install sdl2 SDL2_mixer
+else
+	@echo "$(RED)! Unsupported OS: $(UNAME_S)$(RESET)"
+	@exit 1
+endif
+
+debug: override CFLAGS += -g -DDEBUG
+debug: $(TARGET)
+
+release: override CFLAGS += -O2 -DNDEBUG
+release: $(TARGET)
+
 help:
-	@echo "Music Player Makefile"
+	@echo "$(YELLOW)Music Player Makefile$(RESET)"
 	@echo "====================="
-	@echo "Targets:"
+	@echo "$(GREEN)Targets:$(RESET)"
 	@echo "  all       - Build the music player (default)"
 	@echo "  debug     - Build with debug symbols"
 	@echo "  release   - Build optimized release version"
@@ -46,113 +135,10 @@ help:
 	@echo "  clean     - Remove build files"
 	@echo "  help      - Show this help message"
 	@echo ""
-	@echo "Detected OS: $(UNAME_S)"
-	@echo "Detected Distribution: $(DISTRO)"
+	@echo "$(GREEN)Detected OS:$(RESET) $(UNAME_S)"
+	@echo "$(GREEN)Detected Distribution:$(RESET) $(DISTRO)"
 	@echo ""
-	@echo "Usage:"
+	@echo "$(GREEN)Usage:$(RESET)"
 	@echo "  make install  # Install dependencies"
 	@echo "  make          # Build the project"
-	@echo "  ./music_player /path/to/music"
-
-.PHONY: all clean install help
-
-all: $(TARGET)
-
-$(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $@ $(LIBS)
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
-
-clean:
-	rm -rf $(OBJDIR) $(TARGET)
-
-# Package manager detection
-install:
-	@echo "Detected OS: $(UNAME_S)"
-	@echo "Detected Distribution: $(DISTRO)"
-	@echo "Installing SDL2 dependencies..."
-ifeq ($(UNAME_S),Linux)
-
-# Debian
-	@if command -v apt-get >/dev/null 2>&1; then \
-		echo "Using apt-get (Debian/Ubuntu)..."; \
-		sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev; \
-
-# CentOS
-	elif command -v yum >/dev/null 2>&1; then \
-		echo "Using yum (RHEL/CentOS)..."; \
-		sudo yum install -y SDL2-devel SDL2_mixer-devel; \
-	
-# Fedora	
-	elif command -v dnf >/dev/null 2>&1; then \
-		echo "Using dnf (Fedora)..."; \
-		sudo dnf install -y SDL2-devel SDL2_mixer-devel; \
-	
-# Arch	
-	elif command -v pacman >/dev/null 2>&1; then \
-		echo "Using pacman (Arch Linux)..."; \
-		sudo pacman -S --needed sdl2 sdl2_mixer; \
-	
-# openSUSE	
-	elif command -v zypper >/dev/null 2>&1; then \
-		echo "Using zypper (openSUSE)..."; \
-		sudo zypper install -y libSDL2-devel libSDL2_mixer-devel; \
-	
-# Gentoo	
-	elif command -v emerge >/dev/null 2>&1; then \
-		echo "Using emerge (Gentoo)..."; \
-		sudo emerge -av media-libs/libsdl2 media-libs/sdl2-mixer; \
-	
-# Alpine Linux	
-	elif command -v apk >/dev/null 2>&1; then \
-		echo "Using apk (Alpine Linux)..."; \
-		sudo apk add --no-cache sdl2-dev sdl2_mixer-dev; \
-	
-# Void Linux	
-	elif command -v xbps-install >/dev/null 2>&1; then \
-		echo "Using xbps (Void Linux)..."; \
-		sudo xbps-install -S SDL2-devel SDL2_mixer-devel; \
-	else \
-		echo "Unknown package manager. Please install SDL2 and SDL2_mixer manually."; \
-		echo "Required packages: SDL2 development libraries, SDL2_mixer development libraries"; \
-		exit 1; \
-	fi
-else ifeq ($(UNAME_S),Darwin)
-	@if command -v brew >/dev/null 2>&1; then \
-		echo "Using Homebrew (macOS)..."; \
-		brew install sdl2 sdl2_mixer; \
-	elif command -v port >/dev/null 2>&1; then \
-		echo "Using MacPorts (macOS)..."; \
-		sudo port install libsdl2 libsdl2_mixer; \
-	else \
-		echo "Please install Homebrew or MacPorts first, then run 'make install' again."; \
-		echo "Homebrew: https://brew.sh/"; \
-		echo "MacPorts: https://www.macports.org/"; \
-		exit 1; \
-	fi
-else ifeq ($(UNAME_S),FreeBSD)
-	@echo "Using pkg (FreeBSD)..."
-	sudo pkg install -y sdl2 sdl2_mixer
-else ifeq ($(UNAME_S),OpenBSD)
-	@echo "Using pkg_add (OpenBSD)..."
-	sudo pkg_add sdl2 sdl2-mixer
-else ifeq ($(UNAME_S),NetBSD)
-	@echo "Using pkgin (NetBSD)..."
-	sudo pkgin install sdl2 SDL2_mixer
-else
-	@echo "Unsupported OS: $(UNAME_S)"
-	@echo "Please install SDL2 and SDL2_mixer manually for your system."
-	@exit 1
-endif
-
-# Debug build
-debug: CFLAGS += -g -DDEBUG
-debug: $(TARGET)
-
-# Release build
-release: CFLAGS += -O2 -DNDEBUG
-release: $(TARGET)
+	@echo "  ./$(TARGET) /path/to/music"
