@@ -18,9 +18,8 @@ Perfect for anyone who just wants music while staying fully in the terminal.
 ## Features
 
 - Supports common audio formats: `.wav`, `.mp3`, `.ogg`
-- SDL2-powered audio playback
-- Fast and light – built entirely in C
-- Works from the terminal – great for tiling WM users or minimalists
+- Fast and light (Because its in C)
+- Works from the terminal – great for tiling WM users
 - Open for anyone to use or modify
 
 ---
@@ -31,7 +30,20 @@ You’ll need SDL2 and SDL2_mixer installed before compiling. The installation s
 
 ### Installation:
 ```bash
-https://github.com/pandgey/cMusix.git
+git  clone https://github.com/pandgey/cMusix.git
 cd cMusix/
 make install
 make
+``` 
+
+### Tested on
+- Arch-Linux
+
+### Contributions
+Found anything broken or have a new ideas for this?
+Feel free to shoot me a message or just open an issue
+
+### License
+No license headache, just use it
+It’s me, my code, and the beat. You’re free to remix it however you want
+(ps. you dont have to credit me, but always appreciated!)
