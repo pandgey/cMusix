@@ -29,6 +29,6 @@ Perfect for anyone who just wants music while staying fully in the terminal.
 
 You’ll need SDL2 and SDL2_mixer installed before compiling. The installation script will help you download that, if you dont have. If you are unsure, you may want to see it for yourself
 
-### Arch-based systems:
+### Installation:
 ```bash
-sudo pacman -S sdl2 sdl2_mixer
+[sudo pacman -S sdl2 sdl2_mixer](https://github.com/pandgey/cMusix.git)
