@@ -31,4 +31,4 @@ You’ll need SDL2 and SDL2_mixer installed before compiling. The installation s
 
 ### Installation:
 ```bash
-[sudo pacman -S sdl2 sdl2_mixer](https://github.com/pandgey/cMusix.git)
+https://github.com/pandgey/cMusix.git
