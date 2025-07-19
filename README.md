@@ -1,6 +1,6 @@
 # cMusix
 
-A no-frills, terminal-based music player built in C using SDL2 and SDL2_mixer.  
+A terminal-based music player built in C.  
 Made for those who want to jam without the RAM slam.
 
 ---
@@ -35,15 +35,16 @@ cd cMusix/
 make install
 make
 ``` 
+The program assume that you store your music in Music directory
 
 ### Tested on
 - Arch-Linux
 
-### Contributions
+## Contributions
 Found anything broken or have a new ideas for this?
 Feel free to shoot me a message or just open an issue
 
-### License
+## License
 No license headache, just use it
 It’s me, my code, and the beat. You’re free to remix it however you want
 (ps. you dont have to credit me, but always appreciated!)
