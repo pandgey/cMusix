@@ -45,6 +45,6 @@ Found anything broken or have a new ideas for this?
 Feel free to shoot me a message or just open an issue
 
 ## License
-No license headache, just use it
+No license headache, just use it.
 It’s me, my code, and the beat. You’re free to remix it however you want
 (ps. you dont have to credit me, but always appreciated!)
