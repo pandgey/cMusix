@@ -39,7 +39,7 @@ The program assume that you store your music in Music directory
 
 If you are unsure where is your Music folder, i made an algorithm to check for it as well. Assuming you are in cMusix folder
 ```bash
-cd musicFinder
+cd folderLocator
 gcc -o musicFinder musicFinder.c
 ./musicFinder
 ``` 
