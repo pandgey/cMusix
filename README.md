@@ -1,13 +1,13 @@
-# 🎶 cMusix
+# cMusix
 
 A no-frills, terminal-based music player built in C using SDL2 and SDL2_mixer.  
 Made for those who want to jam without the RAM slam.
 
 ---
 
-## 🧠 About
+## About
 
-**cMusix** is a minimalistic command-line music player designed with performance in mind.  
+**cMusix** is a minimalistic command-line music player, ensuring that the system 
 It's built specifically for Arch-based systems, but the source is portable enough to compile on other *nix systems too.
 
 The idea is simple: you give it a music file, it plays it — no GUI, no menus, no distractions.  
@@ -15,7 +15,7 @@ Perfect for anyone who just wants music while staying fully in the terminal.
 
 ---
 
-## ✨ Features
+## Features
 
 - Supports common audio formats: `.wav`, `.mp3`, `.ogg`
 - SDL2-powered audio playback
@@ -25,10 +25,10 @@ Perfect for anyone who just wants music while staying fully in the terminal.
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
-You’ll need SDL2 and SDL2_mixer installed before compiling.
+You’ll need SDL2 and SDL2_mixer installed before compiling. The installation script will help you download that, if you dont have. If you are unsure, you may want to see it for yourself
 
-### 🧪 Arch-based systems:
+### Arch-based systems:
 ```bash
 sudo pacman -S sdl2 sdl2_mixer
