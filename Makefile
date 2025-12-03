@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
 LIBS = -lSDL2 -lSDL2_mixer
-TARGET = cMusix
+TARGET = cmusix
 
 # Colors
 YELLOW = \033[1;33m
