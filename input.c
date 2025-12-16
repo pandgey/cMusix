@@ -21,6 +21,33 @@ void userInput() {
         return;
     }
     
+    // Handle escape sequences (arrow keys, etc.)
+    if (ch == 27) {  // ESC
+        // Check if this is part of an escape sequence
+        char seq[3];
+        
+        // Set a very short timeout to check for sequence
+        tv.tv_sec = 0;
+        tv.tv_usec = 10000;  // 10ms
+        
+        FD_ZERO(&fds);
+        FD_SET(STDIN_FILENO, &fds);
+        
+        if (select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv) > 0) {
+            // This is an escape sequence, read and ignore it
+            if (read(STDIN_FILENO, &seq[0], 1) == 1) {
+                if (seq[0] == '[') {
+                    read(STDIN_FILENO, &seq[1], 1);
+                    // Ignore the escape sequence
+                    return;
+                }
+            }
+            return;
+        }
+        // If no sequence follows, treat as actual ESC key press
+        // Fall through to quit
+    }
+    
     switch (ch) {
         case ' ':
             if (!player.is_playing && player.count > 0) {
@@ -55,7 +82,10 @@ void userInput() {
             break;
         case 'q':
         case 'Q':
-        case 27: // ESC key
+            cleanup();
+            exit(0);
+            break;
+        case 27: // ESC key (only reaches here if not part of sequence)
             cleanup();
             exit(0);
             break;
@@ -70,6 +100,9 @@ void userInput() {
             if (player.list_offset > 0) {
                 player.list_offset--;
             }
+            break;
+        default:
+            // Ignore unrecognized keys instead of crashing
             break;
     }
 }
