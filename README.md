@@ -43,6 +43,13 @@ If you are unsure where is your Music folder, i made an algorithm to check for i
 cd folderLocator
 gcc -o musicFinder musicFinder.c
 ./musicFinder
+```
+
+### To add to PATH:
+
+Assuming that you are in cmusix folder, run the command below:
+```bash
+sudo cp cmusix /usr/local/bin/
 ``` 
 
 ### Tested on
