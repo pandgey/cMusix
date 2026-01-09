@@ -30,6 +30,7 @@ You’ll need SDL2 and SDL2_mixer installed before compiling. The installation s
 
 ### Installation:
 ```bash
+sudo pacman -S sdl2 sdl2_mixer
 git  clone https://github.com/pandgey/cMusix.git
 cd cMusix/
 make install
